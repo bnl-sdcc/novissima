@@ -54,8 +54,6 @@ setup(
     url='https://github.com/jose-caballero/novissima',
     # we include the test/ subdirectory
     packages=['novissima',
-              'novissima.novacore',
-              'novissima.novacli',
               ],
 
     scripts = [ ],
