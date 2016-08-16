@@ -74,9 +74,11 @@ class NovaCLI:
     def delete(self):
     
         list_servers = self.core.get_list_servers()
-        list_servers.sort()
+        ###list_servers.sort()
+        list_servers.sort(novacore.sort_by_name)
         index = self._select_server_to_delete_from_list(list_servers)
-        server = list_servers[index-1].server
+        ###server = list_servers[index-1].server
+        server = list_servers[index-1]
         print("Deleting VM instance with name %s ..." %server.name)
         self.core.delete_server(server)
         print("VM instance with name %s deleted" %server.name)
@@ -90,7 +92,8 @@ class NovaCLI:
 
     def _set_image(self):
         list_images = self.core.get_list_images()
-        list_images.sort()
+        ###list_images.sort()
+        list_images.sort(novacore.sort_by_name)
         index = self._select_image_from_list(list_images)
         image = list_images[index-1]
         return image
@@ -113,7 +116,8 @@ class NovaCLI:
         # FIXME:
         #   make 'm1.medium' the default
         list_flavors = self.core.get_list_flavors()
-        list_flavors.sort()
+        ###list_flavors.sort()
+        list_flavors.sort(novacore.sort_by_name)
         index = self._select_flavor_from_list(list_flavors)
         flavor_name = list_flavors[index-1].name
         flavor = self.core.get_flavor(flavor_name)
@@ -125,7 +129,8 @@ class NovaCLI:
 
     
     def _select_flavor_from_list(self, list_flavors):
-        return self._select_from_list(list_flavors, "image flavors")
+        ###return self._select_from_list(list_flavors, "image flavors")
+        return self._select_from_list_extended(list_flavors, "image flavors", ['vcpus', 'disk', 'ram'])
 
     
     def _select_server_to_delete_from_list(self, list_servers):
@@ -142,6 +147,31 @@ class NovaCLI:
         print("List of available %s:" %item_type)
         for i in range(len(list_items)):
             print("    %s%s %s%s : %s%s" %(self.bcolors.BOLD, self.bcolors.FAIL, i+1, self.bcolors.OKBLUE, list_items[i].name, self.bcolors.ENDC))
+        index = raw_input("Pick one by typing the index number: ")
+        index = int(index)
+        return index
+
+    # FIXME
+    # temporary solution
+    # this needs to be merged with _select_from_list()
+    def _select_from_list_extended(self, list_items, item_type, list_attributes):
+        """
+        generic method to display a list of options 
+        on the stdout, 
+        and let the user to pick one by index number
+        """
+
+        print("List of available %s:" %item_type)
+        for i in range(len(list_items)):
+            out = "    %s%s %s%s " %(self.bcolors.BOLD, self.bcolors.FAIL, i+1, self.bcolors.OKBLUE)
+            out += ": %s " %list_items[i].name
+            out += ' '*(20 - len(list_items[i].name) - len(str(i+1)))
+            for attr in list_attributes:
+                token = " %s=%s " %(attr, list_items[i].__dict__[attr])
+                out += token
+                out += " "*(10 - len(token))
+            out += " %s" %self.bcolors.ENDC
+            print(out)
         index = raw_input("Pick one by typing the index number: ")
         index = int(index)
         return index
