@@ -1,0 +1,43 @@
+#!/usr/bin/env python 
+
+#
+# documentation on the python API:
+#       http://docs.openstack.org/developer/python-novaclient/ref/v2/
+#
+
+
+import sys
+
+from novissima.novacli import NovaCLI
+
+def usage(self):
+    print('')
+    print('Tool to facilitate instantiating a VM with nova.')
+    print('Usage:')
+    print('')
+    print('$ novissima create|delete')
+    print('')
+
+
+if __name__ == '__main__':
+    # FIXME!!
+    # this needs to be done properly, with argparse, getopt, or similar.
+
+    try:
+        cli = NovaCLI()
+    except:
+        # FIXME
+        pass
+        
+    if len(sys.argv) != 2:
+        usage()
+        sys.exit()    
+    
+    if sys.argv[1] == 'create':
+        cli.create()
+    elif sys.argv[1] == 'delete':
+        cli.delete()
+    else:
+        #FIXME
+        sys.exit()    
+    

@@ -56,7 +56,8 @@ setup(
     packages=['novissima',
               ],
 
-    scripts = [ ],
+    scripts = ['bin/novissima',
+              ],
     
     data_files = choose_data_files()
 )
