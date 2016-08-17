@@ -10,7 +10,7 @@ import sys
 
 from novissima.novacli import NovaCLI
 
-def usage(self):
+def usage():
     print('')
     print('Tool to facilitate instantiating a VM with nova.')
     print('Usage:')
