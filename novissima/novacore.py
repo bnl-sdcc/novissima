@@ -153,7 +153,17 @@ class NovaCore:
 
 
     def create_server(self, vm_name, image, flavor):
+        '''
+        boot a VM server in OpenStack
+        vm_name: is the name that server will have
+        image: image type to be booted. It can be a Image object of a string Image.name
+        flavor: flavor type to be booted. It can be a Flavor object of a string Flavor.name
+        '''
 
+        if type(image) is str:
+            image = self.get_image(image)
+        if type(flavor) is str:
+            flavor = self.get_flavor(flavor)
         self.client.servers.create(vm_name, image, flavor=flavor)
         while True:
             server = self.get_server(vm_name)
@@ -165,6 +175,12 @@ class NovaCore:
 
 
     def delete_server(self, server):
+        '''
+        delete a VM server in OpenStack
+        server: server to be deleted. It can be a Server object of a string Server.name
+        '''
+        if type(server) == str:       
+            server = self.get_server(server)
         server.stop()
         server.delete()
 
