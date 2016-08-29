@@ -74,10 +74,8 @@ class NovaCLI:
     def delete(self):
     
         list_servers = self.core.get_list_servers()
-        ###list_servers.sort()
         list_servers.sort(novacore.sort_by_name)
         index = self._select_server_to_delete_from_list(list_servers)
-        ###server = list_servers[index-1].server
         server = list_servers[index-1]
         print("Deleting VM instance with name %s ..." %server.name)
         self.core.delete_server(server)
@@ -92,7 +90,6 @@ class NovaCLI:
 
     def _set_image(self):
         list_images = self.core.get_list_images()
-        ###list_images.sort()
         list_images.sort(novacore.sort_by_name)
         index = self._select_image_from_list(list_images)
         image = list_images[index-1]
@@ -116,7 +113,6 @@ class NovaCLI:
         # FIXME:
         #   make 'm1.medium' the default
         list_flavors = self.core.get_list_flavors()
-        ###list_flavors.sort()
         list_flavors.sort(novacore.sort_by_name)
         index = self._select_flavor_from_list(list_flavors)
         flavor_name = list_flavors[index-1].name
@@ -129,7 +125,6 @@ class NovaCLI:
 
     
     def _select_flavor_from_list(self, list_flavors):
-        ###return self._select_from_list(list_flavors, "image flavors")
         return self._select_from_list_extended(list_flavors, "image flavors", ['vcpus', 'disk', 'ram'])
 
     

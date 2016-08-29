@@ -47,36 +47,6 @@ from novaclient import client as novaclient
 
 # =========================================================================
 
-###class CmpBase:
-###    def __cmp__(self, i):
-###        if self.name < i.name:
-###            return -1
-###        elif self.name > i.name:
-###            return 1
-###        else:
-###            return 0
-###
-###class Item(CmpBase):
-###    def __init__(self, item):
-###        self.id = item.id
-###        self.name = item.name
-###
-###class Image(Item):
-###    def __init__(self, image):
-###        Item.__init__(self, image)
-###        self.image = image
-###
-###class Flavor(Item):
-###    def __init__(self, flavor):
-###        Item.__init__(self, flavor)
-###        self.flavor = flavor 
-###
-###class Server(Item):
-###    def __init__(self, server):
-###        Item.__init__(self, server)
-###        self.server = server 
-
-
 def sort_by_name(x, y):
     """
     function to sort list of Items by their attribute .name
@@ -106,7 +76,6 @@ class NovaCore:
         list_images = []
         for image in self.client.images.list():
             if image.status == "ACTIVE":
-                ###list_images.append(Image(image))
                 list_images.append(image)
         return list_images
 
@@ -115,18 +84,14 @@ class NovaCore:
 
         list_flavors = []
         for flavor in self.client.flavors.list():
-            ###list_flavors.append(Flavor(flavor))
             list_flavors.append(flavor)
         return list_flavors
 
 
-    #def get_list_servers(self):
-    #    return self.client.servers.list()
     def get_list_servers(self):
 
         list_servers = []
         for server in self.client.servers.list():
-            ###list_servers.append(Server(server))
             list_servers.append(server)
         return list_servers
 
