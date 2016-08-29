@@ -95,7 +95,7 @@ class GlanceCore:
 
         try:
             return self.client.images.find(name=image_name)
-        exception Exception, ex:
+        except Exception, ex:
             raise Exception
 
 
