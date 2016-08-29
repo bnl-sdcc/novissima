@@ -102,10 +102,10 @@ class GlanceCore:
     def create_image(self, filename, image_name):
 
         with open(filename) as fimage:
-            self.client..images.create(name=image_name, 
-                                       is_public=False, 
-                                       disk_format='raw', 
-                                       container_format='bare', 
-                                       data=fimage)
+            self.client.images.create(name=image_name, 
+                                      is_public=False, 
+                                      disk_format='raw', 
+                                      container_format='bare', 
+                                      data=fimage)
 
 
