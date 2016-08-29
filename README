@@ -1,2 +1,41 @@
 # novissima
-python code to interact with OpenStack via nova
+very simple python code to interact with OpenStack via 
+    -- native nova python client: novaclient
+    -- native keystone python client: keystoneclient
+    -- native glance python client: glanceclient
+
+Implements only a few functionalities. 
+It is not intended to be a complete library. 
+Contributions are accepted.
+
+Content:
+
+    -- client:
+        -- novissima
+
+    -- library:
+        -- class NovaCLI in novacli.py
+            -- usage
+            -- create
+            -- delete
+
+        -- class Novacore in novacore.py
+            -- get_list_images
+            -- get_list_flavors
+            -- get_list_servers
+            -- get_image        
+            -- get_flavor
+            -- get_server        
+            -- get next_floating_ip
+            -- create_server
+            -- delete_server
+            -- set_fixed_ip
+            -- add_floating_ip
+
+        -- class Glancecore in glancecore.py
+            -- get_list_images
+            -- get_image
+            -- create_image
+            
+
+Author: Jose Caballero <jcaballero@bnl.gov>
