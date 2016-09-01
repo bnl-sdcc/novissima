@@ -109,3 +109,11 @@ class GlanceCore:
                                       data=fimage)
 
 
+    def delete_image(self, image_name):
+        '''
+        remove image from GLANCE
+        image_name: the name of the image as displayed 
+                    by commands like nova image-list
+        '''
+        image = self.get_image(image_name)
+        self.client.images.delete(image.id)

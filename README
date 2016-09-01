@@ -4,9 +4,11 @@ very simple python code to interact with OpenStack via
     -- native keystone python client: keystoneclient
     -- native glance python client: glanceclient
 
-Implements only a few functionalities. 
-It is not intended to be a complete library. 
+Implements only a few functionalities, to address current needs. 
+It is not intended to be a complete library, at least for now. 
+
 Contributions are accepted.
+
 
 Content:
 
@@ -36,6 +38,7 @@ Content:
             -- get_list_images
             -- get_image
             -- create_image
+            -- delete_image
             
 
 Author: Jose Caballero <jcaballero@bnl.gov>
