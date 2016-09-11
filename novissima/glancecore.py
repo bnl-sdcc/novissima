@@ -27,7 +27,7 @@
 #   >>> import keystoneclient.v2_0.client as ksclient
 #   >>> import glanceclient
 #   
-#   >>> keystone = ksclient.Client(username='jcaballero', password='xxxxxxx', tenant_name='osgsoft' , auth_url='http://cldext02.usatlas.bnl.gov:35357/v2.0/')
+#   >>> keystone = ksclient.Client(username='user', password='xxxxxxx', tenant_name='tenant' , auth_url='URL:35357/v2.0/')
 #   
 #   >>> glance_endpoint = keystone.service_catalog.url_for(service_type='image',endpoint_type='publicURL')
 #   >>> print glance_endpoint
