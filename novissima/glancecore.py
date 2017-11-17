@@ -79,8 +79,11 @@ class GlanceCore:
                                    auth_url=self.AUTH_URL)
         glance_endpoint = keystone.service_catalog.url_for(service_type='image',
                                                            endpoint_type='publicURL')
-        self.client = glanceclient.Client(None, 
-                                          glance_endpoint+'/v1', 
+#        self.client = glanceclient.Client(None, 
+#                                          glance_endpoint+'/v1', 
+#                                          token=keystone.auth_token)
+        self.client = glanceclient.Client("2", 
+                                          glance_endpoint,
                                           token=keystone.auth_token)
 
 
