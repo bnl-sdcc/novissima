@@ -60,16 +60,31 @@ def sort_by_name(x, y):
 
 class NovaCore:
 
-    def __init__(self, version, username, password, project_id, auth_url):
-
-        self.VERSION = version
-        self.USERNAME = username
-        self.PASSWORD = password
-        self.PROJECT_ID = project_id
-        self.AUTH_URL = auth_url
-
-        self.client = novaclient.Client(self.VERSION, self.USERNAME, self.PASSWORD, self.PROJECT_ID, self.AUTH_URL)
-
+    def __init__(self, *k, **kw):
+        self.client = novaclient.Client(*k, **kw)
+        # examples of a call to this __init__ method
+        #
+        # 1.
+        #       VERSION = "2"
+        #       USERNAME = os.environ['OS_USERNAME']
+        #       PASSWORD = os.environ['OS_PASSWORD']
+        #       PROJECT_ID = os.environ['OS_TENANT_NAME']
+        #       AUTH_URL = os.environ['OS_AUTH_URL']
+        #       
+        #       core = novacore.NovaCore(VERSION, USERNAME, PASSWORD, PROJECT_ID, AUTH_URL)
+        #
+        # 2. 
+        #
+        #       d = {'username' : USERNAME,
+        #            'project_id' : PROJECT_ID,
+        #            'project_name' : PROJECT_NAME,
+        #            'password' : PASSWORD,
+        #            'auth_url' : AUTH_URL,
+        #            'user_domain_name' : USER_DOMAIN_NAME
+        #           }
+        #       
+        #       core = novacore.NovaCore("2", **d)
+        #
 
     def get_list_images(self):
     
