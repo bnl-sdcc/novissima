@@ -132,7 +132,7 @@ class NovaCore:
                 return floating_ip
 
 
-    def create_server(self, vm_name, image, flavor):
+    def create_server(self, vm_name, image, flavor, **kw):
         '''
         boot a VM server in OpenStack
         vm_name: is the name that server will have
@@ -144,13 +144,20 @@ class NovaCore:
             image = self.get_image(image)
         if type(flavor) is str:
             flavor = self.get_flavor(flavor)
-        self.client.servers.create(vm_name, image, flavor=flavor)
+        server = self.client.servers.create(vm_name, image, flavor=flavor, **kw)
+        self._wait_until_active(server)
+        return server
+
+
+    def _wait_until_active(self, server):
+        '''
+        wait in a loop until the server is in status ACTIVE
+        '''
         while True:
-            server = self.get_server(vm_name)
             status = server.status
             power = int(server.__dict__['OS-EXT-STS:power_state'])
             if status == "ACTIVE" and power == 1:
-                return server
+                return 
             time.sleep(1)
 
 
