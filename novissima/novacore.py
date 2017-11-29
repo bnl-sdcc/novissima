@@ -153,7 +153,9 @@ class NovaCore:
         '''
         wait in a loop until the server is in status ACTIVE
         '''
+        id = server.id
         while True:
+            server = self.client.servers.find(id=id)
             status = server.status
             power = int(server.__dict__['OS-EXT-STS:power_state'])
             if status == "ACTIVE" and power == 1:
