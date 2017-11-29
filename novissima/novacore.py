@@ -103,12 +103,13 @@ class NovaCore:
         return list_flavors
 
 
-    def get_list_servers(self):
+    def get_list_servers(self, **kw):
 
-        list_servers = []
-        for server in self.client.servers.list():
-            list_servers.append(server)
-        return list_servers
+#        list_servers = []
+#        for server in self.client.servers.list():
+#            list_servers.append(server)
+#        return list_servers
+        return self.client.servers.list(search_opts=kw)
 
 
     def get_image(self, **kw):
