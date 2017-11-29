@@ -111,16 +111,16 @@ class NovaCore:
         return list_servers
 
 
-    def get_image(self, image_name):
-        return self.client.images.find(name=image_name)
+    def get_image(self, **kw):
+        return self.client.images.find(**kw)
 
 
-    def get_flavor(self, flavor_name):
-        return self.client.flavors.find(name=flavor_name)
+    def get_flavor(self, **kw):
+        return self.client.flavors.find(**kw)
 
 
-    def get_server(self, server_name):
-        return self.client.servers.find(name=server_name)
+    def get_server(self, **kw):
+        return self.client.servers.find(**kw)
 
 
     def get_next_floating_ip(self): 
@@ -141,9 +141,9 @@ class NovaCore:
         '''
 
         if type(image) is str:
-            image = self.get_image(image)
+            image = self.get_image(name=image)
         if type(flavor) is str:
-            flavor = self.get_flavor(flavor)
+            flavor = self.get_flavor(name=flavor)
         server = self.client.servers.create(vm_name, image, flavor=flavor, **kw)
         self._wait_until_active(server)
         return server
@@ -155,7 +155,7 @@ class NovaCore:
         '''
         id = server.id
         while True:
-            server = self.client.servers.find(id=id)
+            server = self.get_server(id=id)
             status = server.status
             power = int(server.__dict__['OS-EXT-STS:power_state'])
             if status == "ACTIVE" and power == 1:
@@ -169,7 +169,7 @@ class NovaCore:
         server: server to be deleted. It can be a Server object of a string Server.name
         '''
         if type(server) == str:       
-            server = self.get_server(server)
+            server = self.get_server(name=server)
         server.stop()
         server.delete()
 
