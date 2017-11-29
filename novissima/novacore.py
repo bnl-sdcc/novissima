@@ -113,10 +113,16 @@ class NovaCore:
 
 
     def get_image(self, **kw):
+        """
+        example:  get_image(name='centos7'
+        """
         return self.client.images.find(**kw)
 
 
     def get_flavor(self, **kw):
+        """
+        example:  get_flavor(name='m1.medium'
+        """
         return self.client.flavors.find(**kw)
 
 
@@ -140,19 +146,21 @@ class NovaCore:
         image: image type to be booted. It can be a Image object of a string Image.name
         flavor: flavor type to be booted. It can be a Flavor object of a string Flavor.name
         '''
+        # get the timeout from the dictionary **kw, default is 5 minutes
+        timeout = kw.pop('timeout', 300)
+        
+        # create the VM
+        server = self.client.servers.create(vm_name, image=image, flavor=flavor, **kw)
 
-        if type(image) is str:
-            image = self.get_image(name=image)
-        if type(flavor) is str:
-            flavor = self.get_flavor(name=flavor)
-        server = self.client.servers.create(vm_name, image, flavor=flavor, **kw)
-        self._wait_until_active(server)
+        # wait until the VM is active
+        self._wait_until_active(server, timeout)
+
         return server
 
 
-    def _wait_until_active(self, server):
+    def _wait_until_active(self, server, wait):
         '''
-        wait in a loop until the server is in status ACTIVE
+                in a loop until the server is in status ACTIVE
         '''
         id = server.id
         while True:
