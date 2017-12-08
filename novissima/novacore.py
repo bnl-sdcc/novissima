@@ -34,14 +34,16 @@ __version__ = "0.9.1"
 
 
 import commands
+import datetime
 import os
 import pwd
 import sys
 import time
 
-# FIXME: 
-# what to do if the import fails?
 from novaclient import client as novaclient
+
+from novasimmaex import NovissimaServerCreationFailure
+from novasimmaex import NovissimaServerCreationTimeOut
 
 
 
@@ -150,32 +152,47 @@ class NovaCore:
         timeout = kw.pop('timeout', 300)
         
         # create the VM
-        server = self.client.servers.create(vm_name, image=image, flavor=flavor, **kw)
+        try:
+            server = self.client.servers.create(vm_name, image=image, flavor=flavor, **kw)
+        except Exception, ex:
+            raise ex
 
         # wait until the VM is active
-        self._wait_until_active(server, timeout)
+        try:
+            self._wait_until_active(server, timeout)
+            return server
+        except Exception, ex:
+            if server:
+                server.delete()
+            raise ex
 
-        return server
 
-
-    def _wait_until_active(self, server, wait):
+    def _wait_until_active(self, server, timeout):
         '''
-                in a loop until the server is in status ACTIVE
+        in a loop until the server is in status ACTIVE
         '''
         id = server.id
-        while True:
+        now = datetime.datetime.now()
+        delta = 0
+        keep = True
+        while keep:
             server = self.get_server(id=id)
             status = server.status
             power = int(server.__dict__['OS-EXT-STS:power_state'])
             if status == "ACTIVE" and power == 1:
-                return 
-            time.sleep(1)
+                keep = False
+            else:
+                delta = (datetime.datetime.now() - now).seconds
+                if delta > timeout:
+                    keep = False
+        if delta > timeout:
+           raise NovissimaServerCreationTimeOut('create_server', timeout)
 
 
-    def delete_server(self, server):
+
+    def remove_server(self, server):
         '''
         delete a VM server in OpenStack
-        server: server to be deleted. It can be a Server object of a string Server.name
         '''
         if type(server) == str:       
             server = self.get_server(name=server)

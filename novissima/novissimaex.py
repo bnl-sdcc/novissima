@@ -15,9 +15,14 @@ class ConfigurationFailure(Exception):
         return self.value
 
 
-class TimeOut(Exception):
+class NovissimaServerCreationTimeOut(Exception):
     def __init__(self, task, timout):
         self.value = 'task %s timed out after %s seconds.' %(task, timeout)
     def __str__(self):
         return self.value
 
+class NovissimaServerCreationFailure(Exception):
+    def __init__(self):
+        self.value = "creating server failed"
+    def __str__(self):
+        return self.value

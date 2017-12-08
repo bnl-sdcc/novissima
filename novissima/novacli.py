@@ -78,8 +78,8 @@ class NovaCLI:
         index = self._select_server_to_delete_from_list(list_servers)
         server = list_servers[index-1]
         print("Deleting VM instance with name %s ..." %server.name)
-        self.core.delete_server(server)
-        print("VM instance with name %s deleted" %server.name)
+        self.core.remove_server(server)
+        print("VM instance with name %s removed" %server.name)
 
 
 
