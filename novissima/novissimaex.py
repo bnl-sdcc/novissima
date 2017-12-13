@@ -21,6 +21,7 @@ class NovissimaServerCreationTimeOut(Exception):
     def __str__(self):
         return self.value
 
+
 class NovissimaServerCreationFailure(Exception):
     def __init__(self):
         self.value = "creating server failed"

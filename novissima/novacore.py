@@ -141,6 +141,23 @@ class NovaCore:
                 return floating_ip
 
 
+    def create_n_servers(self, n, vm_name, image, flavor, **kw):
+        """
+        try to create N identical servers
+        returns the list of all servers that were actually created
+        """
+        server_l = []
+        for i in range(n):
+            try:
+                server = self.create_server(vm_name, image, flavor, **kw)
+                server_l.append(server)
+            except Exception, ex:
+                pass
+            else:
+                server_l.append(server)
+        return server_l 
+
+
     def create_server(self, vm_name, image, flavor, **kw):
         '''
         boot a VM server in OpenStack
