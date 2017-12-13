@@ -206,6 +206,21 @@ class NovaCore:
            raise NovissimaServerCreationTimeOut('create_server', timeout)
 
 
+    def remove_n_servers(self, server_l):
+        """
+        try to remove a list of servers
+        returns the list of servers that couldn't be removed and are still active
+        """
+        left_l = copy.copy(server_l)
+        for server in left_l:
+            try:
+                self.remove_server(server)
+            except Exception, ex:
+                pass
+            else:
+                left_l.remove(server)
+        return left_l
+
 
     def remove_server(self, server):
         '''
