@@ -42,8 +42,8 @@ import time
 
 from novaclient import client as novaclient
 
-from novasimmaex import NovissimaServerCreationFailure
-from novasimmaex import NovissimaServerCreationTimeOut
+from novissimaex import NovissimaServerCreationFailure
+from novissimaex import NovissimaServerCreationTimeOut
 
 
 
